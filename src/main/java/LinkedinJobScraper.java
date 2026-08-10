@@ -47,6 +47,7 @@ public class LinkedinJobScraper {
     public static void main(String[] args) {
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setChannel("chrome")
                 .setHeadless(Config.headless)
                 .setSlowMo(50));
             BrowserContext context = browser.newContext(new Browser.NewContextOptions()
@@ -99,7 +100,7 @@ public class LinkedinJobScraper {
                                 boolean hasHourlyPricing = hourlySpanHr.count() > 0 || hourlySpanHour.count() > 0;
                                 
                                 // Always click the card to load the details pane because we need to check for Remote & Contract
-                                card.click(new Locator.ClickOptions().setTimeout(2000));
+                                card.click(new Locator.ClickOptions().setTimeout(3000));
                                 sleep(2000); // Wait for the right pane to load
                                 
                                 boolean shouldSave = hasHourlyPricing;
@@ -121,10 +122,11 @@ public class LinkedinJobScraper {
                                 if (!shouldSave) {
                                     Locator remoteBtn = page.locator("//span[text()='Save']/preceding::span[text()='Remote']");
                                     Locator contractBtn = page.locator("//span[text()='Save']/preceding::span[text()='Contract']");
+                                    Locator temporaryBtn = page.locator("//span[text()='Save']/preceding::span[text()='Temporary']");
                                     
-                                    if (remoteBtn.count() > 0 && contractBtn.count() > 0) {
+                                    if (remoteBtn.count() > 0 && (contractBtn.count() > 0 || temporaryBtn.count() > 0)) {
                                         shouldSave = true;
-                                        log("Job " + (i + 1) + " is both Remote and Contract.");
+                                        log("Job " + (i + 1) + " is both Remote and Contract or Temporary.");
                                     }
                                 }
                                 
