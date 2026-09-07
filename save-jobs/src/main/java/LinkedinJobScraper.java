@@ -14,7 +14,7 @@ public class LinkedinJobScraper {
     static class Config {
         static String username = "<linkedin username>";
         static String password = "<linkedin password>";
-        static String googleSheetUrl = "https://docs.google.com/spreadsheets/d/1mdbdiHK7wDyZtb402Ug3Vc6rUTyDfD6zJMGKm2zWE-c/edit?gid=9286295#gid=9286295";
+        static String googleSheetUrl = "<google sheet link>";
         static boolean headless = false;
         static int delayBetweenPages = 3000;
     }
